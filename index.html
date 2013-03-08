@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>meet javascript</title>
+
+		<meta name="description" content="an introductive javascript presentation">
+		<meta name="author" content="gradinariu bogdan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<style type="text/css">
+			h2{
+				text-transform: none !important;
+			}
+
+			.main-title{
+				color : black;
+			}
+
+			.reveal .slides section .fragment.highlight-white{
+				color : #999;
+				opacity : 1;
+			}
+			.reveal .slides section .fragment.highlight-white.visible{
+				color : #fff;
+			}
+
+			.align-left{
+				text-align : left!important;
+			}
+			.gray {
+				color : #999;
+			}
+			.gray span{
+				color : #fff;
+			}
+
+			.del{
+				text-decoration: line-through;
+			}
+
+			section iframe{
+				visibility:  hidden;
+			}
+			.show-iframe iframe{
+				visibility: visible!important;
+			}
+		</style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h1>Meet javascript</h1>
+					<p>
+						<small> Sources are available at <a href="https://github.com/gion/meet-javascript" target="_blank">https://github.com/gion/meet-javascript</a></small>
+
+						<small>Created by <a href="mailto:bogdan.gradinariu@xivic.com" target="_blank">Bogdan Gradinariu</a> with <a href="https://github.com/hakimel/reveal.js" target="_blank">reveal.js</a>.</small>
+					</p>
+				</section>
+
+				<section>
+					<h1>javascript...</h1>
+					<ul>
+						<li class="fragment grow">is <strong>not</strong> a toy language</li>
+						<li class="fragment grow">is small but sophisticated</li>
+						<li class="fragment grow highlight-red">is not java (or a subset of java)</li>
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>Key ideas</h2>
+						<ul>
+							<li><a href="#/2/1">load &amp; go delivery</a></li>
+							<li><a href="#/2/2">loose typing</a></li>
+							<li><a href="#/2/3">objects as general containers</a></li>
+							<li><a href="#/2/4">prototypal inheritance</a></li>
+							<li><a href="#/2/5">lambda</a></li>
+							<li><a href="#/2/6">linkage through global variables</a></li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Key ideas :</span> load &amp; go delivery</h2>
+						<ul>
+							<li class="fragment highlight-white">code doesn't need to be compiled</li>
+							<li class="fragment highlight-white">code is executed as it loads</li>
+							<li class="fragment highlight-white">code type is plain text</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Key ideas :</span> loose typing</h2>
+						<ul>
+							<li class="fragment highlight-white">any variable can hold any type of value</li>
+							<li class="fragment highlight-white">no compiler is checking types</li>
+							<li class="fragment highlight-white">programs tend to be easier to write</li>
+							<li class="fragment highlight-white">the language is <b>NOT</b> untyped</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Key ideas :</span> objects as general containers</h2>
+						<ul>
+							<li class="fragment highlight-white">unification of objects and hashtables</li>
+							<li class="fragment highlight-white">objects are completely dynamic</li>
+							<ul>
+								<li class="fragment highlight-white">objects new members can be added any time</li>
+								<li class="fragment highlight-white">existing members can be edited any time</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Key ideas :</span> prototypal inheritance</h2>
+						<ul>
+							<li class="fragment highlight-white">distinct from classical inheritance</li>
+							<li class="fragment highlight-white">objects inherit directly from other objects (there are no classes)</li>
+						</ul>
+					</section>
+					<section >
+						<h2><span class="main-title">Key ideas :</span> lambda</h2>
+						<p>= the use of functions as first class objects</p>
+						<ul>
+							<li class="fragment highlight-white">functions can have members (just like objects)</li>
+							<li class="fragment highlight-white">functions can be stored in variables</li>
+							<li class="fragment highlight-white">functions can be passed as arguments</li>
+						</ul>
+						<pre class="fragment roll-in"><code>
+// assign a function to a variable
+var f = function(){
+    // ...
+};
+
+// add a member to a function
+f.key = "value";
+
+// pass a function as an argument to another function
+f(function(){
+    // ...
+});
+						</code></pre>
+					</section>
+
+					<section>
+						<h2><span class="main-title">Key ideas :</span> linkage through global variables</h2>
+						<ul>
+							<li class="fragment highlight-white">no real linkage mechanism</li>
+							<li class="fragment highlight-white">variables are stored in one global namespace</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Values</h2>
+						<ul>
+							<li><a href="#/3/1">numbers</a></li>
+							<li><a href="#/3/5">strings</a></li>
+							<li><a href="#/3/8">booleans</a></li>
+							<li><a href="#/3/10">null</a></li>
+							<li><a href="#/3/11">undefined</a></li>
+							<li><a href="#/3/13">objects</a></li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Values :</span> numbers</h2>
+						<ul>
+							<li class="fragment highlight-white">a single type of number
+								<ul>
+									<li class="fragment roll-in">no (unsigned) int/float/double, just <strong>number</strong></li>
+									<li class="fragment roll-in">IEEE-754 (aka "double")</li>
+								</ul>
+							</li>
+							<li class="fragment highlight-white">not good with common arithmetics : 
+								<ul>
+									<li class="fragment roll-in"><pre><code>0.2 + 0.1 != 0.3;
+console.log(0.2 + 0.1); // 0.30000000000000004</code></pre></li>
+								</ul>
+							</li>
+						</section>
+						<section>
+							<h2><span class="main-title">Values.numbers: </span> NaN</h2>
+								<ul>
+									<li class="fragment highlight-white">it's the result of a erroneous operation</li>
+									<li class="fragment highlight-white"><i>NaN</i> is <strong>not</strong> equal to anithing, <strong>including <i>NaN</i></strong>
+										<ul>
+											<li class="fragment roll-in"><pre><code>console.log(NaN == NaN); // false</code></pre></li>
+										</ul>
+										<li class="fragment highlight-white">Use the built in <i>isNaN</i> function</li>
+										<ul>	
+											<li class="fragment roll-in"><pre><code>console.log(isNaN(10 / 0)); // true</code></pre></li>
+										</ul>
+										<li class="fragment roll-in">although <i>NaN</i> stands for <i><b>N</b>ot<b>A</b><b>N</b>umber</i> 
+											<pre><code>typeof NaN == 'number';</code></pre>
+										</li>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Values.numbers: </span> Number()</h2>
+						<ul>
+							<li class="fragment  highlight-white">converts a value into a number
+								<ul>
+									<li class="fragment roll-in"><pre><code>123 == Number('123');</code></pre></li>
+								</ul>
+							</li>
+							<li class="fragment  highlight-white">it returns <i>NaN</i> if it has a problem
+								<ul>
+									<li class="fragment roll-in"><pre><code>isNaN(Number('string')); // true</code></pre></li>
+								</ul>
+							</li>
+							<li class="fragment  highlight-white">similar to <i>+</i> the prefix operator
+								<ul>
+									<li class="fragment roll-in"><pre><code>+'123' == Number('123');</code></pre></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2><span class="main-title">Values.numbers: </span> parseInt()</h2>
+						<ul>
+							<li class="fragment  highlight-white">converts a value into an <b>integer</b>, but stops at the first <b>non-digit</b> character that it encounters
+								<ul>
+									<li class="fragment roll-in">
+<pre><code>var value = "85px";
+console.log(Number(value)); // NaN	
+console.log(parseInt(value)); // 85</code></pre></li>
+								</ul>
+							</li>
+							<li class="fragment  highlight-white">it converts the value to a number in the specified number-base
+								<ul>
+									<li class="fragment roll-in"><pre><code>parseInt('00101', 2) == 5;</code></pre></li>
+								</ul>
+							</li>
+							<li class="fragment  highlight-white">for floating point values, use <i>parseFloat</i>
+								<ul>
+									<li class="fragment roll-in">
+<pre><code>var value = "5.2";
+console.log(parseInt(value, 10)); // 5  
+console.log(parseFloat(value)); // 5.2  </code></pre></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2><span class="main-title">Values :</span> strings</h2>
+						<ul>
+							<li class="fragment highlight-white">no separate character type</li>
+							<li class="fragment highlight-white">characters can be accessed as array members (the <i>[]</i> notation)</li>
+							<li class="fragment highlight-white">both simple and double quotes can be used</li>
+							<li class="fragment highlight-white">concatenation is done with the <b>+</b> operator</li>
+							<li class="fragment highlight-white">similar strings are equal (==)</li>
+							<li class="fragment highlight-white"><i>String.length</i> holds the number of characters</li>
+							<li class="fragment highlight-white">strings are immutable</li>
+						</ul>
+<pre class="fragment roll-in"><code>var string1 = "abcd",
+    string2 = 'ab' + "cd";
+
+console.log(string1 == string2); // true
+
+console.log(string2.length); // 4
+
+// rewrite the second character 
+string1[1] = 'x';
+console.log(string1); // it's not "axcd", it's still "abcd"
+</code></pre>
+
+					</section>
+					<section>
+						<h2><span class="main-title">Values.string :</span> String()</h2>
+						<ul>
+							<li>it converts a number value to string</li>
+<pre class="fragment roll-in"><code>var number = 13,
+    string = String(number); // "13"
+</code></pre>
+						</ul>
+
+					</section><section>
+						<h2><span class="main-title">Values.string :</span> String methods</h2>
+						<ul>
+							<li>charAt</li>
+							<li>concat</li>
+							<li>indexOf</li>
+							<li>lastIndexOf</li>
+							<li>match</li>
+							<li>replace</li>
+							<li>search</li>
+							<li>slice</li>
+							<li>splice</li>
+							<li>split</li>
+							<li>substr</li>
+							<li>substring</li>
+							<li>toLowerCase</li>
+							<li>toUpperCase</li>
+						</ul>
+
+					</section>
+					<section>
+						<h2><span class="main-title">Values : </span> booleans</h2>
+						<ul>
+							<li>true</li>
+							<li>false</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Values.boolean : </span> Boolean()</h2>
+						<ul>
+							<li>returns <i>true</i> if the value is <b>truthy</b></li>
+							<li>returns <i>false</i> if the value is <b>falsly</b></li>
+							<li>similar to <i>!!</i> prefix operator</li>
+						</ul>
+						<p>
+							Use it with caution!<pre class="fragment roll-in"><code>false != Boolean("false");</code></pre>
+						</p>
+					</section>
+					<section>
+						<h2><span class="main-title">Values : </span> null</h2>
+						<ul>
+							<li>a value that isn't anything</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Values : </span> undefined</h2>
+						<ul>
+							<li>not even null</li>
+							<li>the default value for variables and parameters</li>
+							<li>the value of missing members in objects</li>
+							<li>the returning value of functions that do not return anything</li>
+						</ul>
+						<pre class="fragment roll-in"><code>var a;
+console.log(a); // undefined
+
+function log(msg){
+    console.log(msg);
+}
+log("blah"); // "blah"
+log(); // undefined
+
+var obj = {};
+console.log(obj.someKey); // undefined
+
+/*void*/ function foo(){ /* some code */ };
+var fooResult = foo();
+console.log(fooResult); // undefined</code></pre>
+					</section>
+					<section>
+						<h2><span class="main-title">Values :</span> <b>falsy</b> values</h2>
+						<ul>
+							<li>false</li>
+							<li>null</li>
+							<li>undefined</li>
+							<li>""</li>
+							<li>0</li>
+							<li>NaN</li>
+						</ul>
+						<br>
+						<br>
+						<p>
+							All other values (including all objects) are <b>truthy</b> <br/>("0" or "false" are <b>truthy</b>)
+						</p>
+					</section>
+					<section >
+						<h2><span class="main-title">Values :</span> objects</h2>
+						<h5 class="fragment roll-in">everything else is an object...</h5>
+						<ul>
+							<li class="fragment highlight-white">an object is mainly a collection of key-value pairs, where
+								<ul>
+									<li class="fragment highlight-white">a key can be any string</li>
+									<li class="fragment highlight-white">a value can be any value exept <i>undefined</i></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section >
+						<h2><span class="main-title">Values :</span> objects</h2>
+						<ul>
+							<li>can be created:
+								<ul>
+									<li class="fragment roll-in">with the <i>new</i> operator
+										<pre><code>var o = new Object(),
+    dateObj = new Date();</code></pre>
+									</li>
+									<li class="fragment roll-in">as an object literal (JSON notation)
+										<pre><code>var emptyObject = {},
+    bob = {
+        "name" : "Bobby McFerrin",
+        "age" : 63
+    };</code></pre></li>
+									<li class="fragment roll-in">with the <i>Object.create</i> method<pre><code>var o = Object.create(),
+    otherObject = Object.create({
+        someKey : 'someValue'
+    });</code></pre></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section >
+						<h2><span class="main-title">Values :</span> objects</h2>
+						<ul>
+							<li>members can be accessed with dot notation or subscript notation
+								<pre class="fragment roll-in"><code>someObject.someKey = someValue;
+console.log(someObject['someKey']); // someValue
+</code></pre>
+							</li>
+							<li>subscript notation is the most general one (the safest)
+								<pre class="fragment roll-in"><code>// !!!
+var o = {
+    'singleWord' : '', 	
+    'multiple-words' : ''
+};
+
+// OK
+o['multiple-words']; 
+
+// ReferenceError: "words" is not defined
+o.multiple-words; // translates to o.multiple - words
+</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section >
+						<h2><span class="main-title">Values :</span> objects</h2>
+						<ul>
+							<li>members can be removed with the <i>delete</i> keyword</li>
+							<li>note that only object members can be removed</li>
+								<pre class="fragment roll-in"><code>var o = {
+    'singleWord' : '', 	
+    'multiple-words' : ''
+};
+
+// OK
+delete o['multiple-words']; 
+delete o.singleWord; 
+
+// NOT OK
+delete o;
+
+// OK
+delete window.o;
+</code></pre>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				
+				<section>
+					<h2>Identifiers</h2>
+					<ul>
+						<li class="fragment highlight-white">starts with a letter or "_" or "$"</li>
+						<li class="fragment highlight-white">followed by zero or more letters, digits, "_" or "$"</li>
+						<li class="fragment highlight-white">by convention, all variables, members and function names:
+							<ul>
+								<li class="fragment roll-in">start with lower case (except for constructors)</li>
+								<li class="fragment roll-in">that start with "_" should be reserved for internal use (are private)</li>
+								<li class="fragment roll-in">that start with "$" should be reserved for machines</li>
+							</ul>
+						</li>
+						<li class="fragment highlight-white">cannot coincide with a reserved word</li>
+
+					</ul>
+				</section>
+
+				<section>
+					<section>
+						<h2>Reserved Words</h2>
+						<p class="align-left">
+							abstract <br>
+							boolean <span>break</span> byte <br>
+							<span>case</span> <span>catch</span> char class const <span>continue</span><br>
+							<span>debugger</span> <span>default</span> <span>delete</span> <span>do</span> double<br>
+							<span>else</span> enum export extends<br>
+							<span>false</span> final <span>finally</span> float <span>for</span> <span>function</span><br>
+							goto<br>
+							<span>if</span> implements import <span>in</span> <span>instanceof</span> int interface<br>
+							long <br>
+							native <span>new</span> <span>null</span><br>
+							package private protected public <br>
+							<span>return</span><br>
+							short static super <span>switch</span> synchronized<br>
+							<span>this</span> <span>throw</span> throws transient <span>true</span> <span>try</span> <span>typeof</span><br>
+							<span>var</span> volatile <span>void</span><br>
+							<span>while</span> <span>with</span>
+						</p>					
+					</section>
+					<section>
+						<h2><span class="main-title">Reserved Words</span> that are actually used</h2>
+						<p class="align-left gray">
+							abstract <br>
+							boolean <span>break</span> byte <br>
+							<span>case</span> <span>catch</span> char class const <span>continue</span><br>
+							<span>debugger</span> <span>default</span> <span>delete</span> <span>do</span> double<br>
+							<span>else</span> enum export extends<br>
+							<span>false</span> final <span>finally</span> float <span>for</span> <span>function</span><br>
+							goto<br>
+							<span>if</span> implements import <span>in</span> <span>instanceof</span> int interface<br>
+							long <br>
+							native <span>new</span> <span>null</span><br>
+							package private protected public <br>
+							<span>return</span><br>
+							short static super <span>switch</span> synchronized<br>
+							<span>this</span> <span>throw</span> throws transient <span>true</span> <span>try</span> <span>typeof</span><br>
+							<span>var</span> volatile <span>void</span><br>
+							<span>while</span> <span>with</span>
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Operators</h2>
+						<ul>
+							<li>arithmetic
+								<pre><code>+ - * / %</code></pre>
+							</li>
+							<li>comparison
+								<pre><code>== != &lt; &gt; &lt;= &gt;= </code></pre>
+							</li>
+							<li>logical
+								<pre><code>&amp;&amp; || !</code></pre>
+							</li>
+							<li>bitwise
+								<pre><code>&amp;| ^ &gt;&gt; &gt;&gt;&gt; &lt;&lt; </code></pre>
+							</li>
+							<li>ternary
+								<pre><code>?:</code></pre>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Operators.arithmetic: </span> + </h2>
+						<ul>
+							<li class="fragment highlight-white">addition and concatenation</li>
+							<li class="fragment highlight-white">if both operands are numbers <br>
+								&nbsp;&nbsp;&nbsp;&nbsp;then <br>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add them<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;else <br>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;convert them both to strings and concatenate them
+							</li>
+							<pre class="fragment roll-in"><code>// addition 
+1 + 2 == 3;
+
+// conversion and concatenation
+'1' + 2 == '12';
+
+// !!
+// addition then conversion and concatenation
+1 + 2 + '3' + 4 == '334';							</code></pre>
+						</ul>
+					</section>
+
+					<section>
+						<h2><span class="main-title">Operators.comparison: </span> == and != </h2>
+						<ul>
+							<li class="fragment highlight-white">classic equal and not equal</li>
+							<li class="fragment highlight-white">these operators can do type coercion</li>
+							<li class="fragment highlight-white">it's often better to use the strict equality operators (<i>===</i> and <i>!==</i>), which do not do type coercion</li>
+						</ul>
+					</section>
+					<section data-state="show-iframe">
+						<h2><span class="main-title">Operators.comparison: </span> == and != </h2>
+						<iframe width="960" height="720" src="http://www.youtube.com/embed/hQVTIJBZook#t=14m59s" frameborder="0" allowfullscreen></iframe>
+					</section>
+
+					<section>
+						<h2><span class="main-title">Operators.logical: </span> &amp;&amp;</h2>
+						<ul>
+							<li class="fragment highlight-white">the guard operator, aka <i>logical AND</i></li>
+							<li class="fragment highlight-white">does not necessarily return a boolean value</li>
+							<pre class="fragment roll-in"><code>// returns a boolean, as expected
+true && false == false;
+
+// wait, what?
+true && "some value" == 'some value';</code></pre>
+							<li class="fragment highlight-white">
+								if the first operand is truthy<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;then result is second operand<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;else result is first operand
+							</li>
+							<li class="fragment highlight-white">it can be used to avoid <i>null</i> references</li>
+							<pre class="fragment roll-in"><code>if(someObject){
+    return someObject.someKey;
+} else {
+    return someObject;	
+}
+// can be written as
+return someObject && someObject.someKey;</code></pre>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Operators.logical: </span> ||</h2>
+						<ul>
+							<li class="fragment highlight-white">the default operator, aka <i>logical OR</i></li>
+							<li class="fragment highlight-white">does not necessarily return a boolean value</li>
+							<pre class="fragment roll-in"><code>// returns a boolean, as expected
+true || false == true;
+
+// wait, what?
+false || "some value" == 'some value';</code></pre>
+							<li class="fragment highlight-white">
+								if the first operand is truthy<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;then result is first operand<br>
+								&nbsp;&nbsp;&nbsp;&nbsp;else result is second operand
+							</li>
+							<li class="fragment highlight-white">it can be used to fill in default values</li>
+							<pre class="fragment roll-in"><code>if(userInput){
+    myVar = userInput
+} else {
+    myVar = defaultValue;	
+}
+// can be written as
+myVar = userInput || defaultValue;</code></pre>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Operators.bitwise: </span> &amp; &nbsp;|&nbsp; ^&nbsp; &gt;&gt;&nbsp; &gt;&gt;&gt;&nbsp; &lt;&lt;&nbsp;</h2>
+						<ul>
+							<li class="fragment highlight-white">these operators convert the operands to numbers, then convert them to 32-bit signed integers and turn the result back into a 64-bit floating point</li>
+							<li class="fragment highlight-white">don't use them if not necessary</li>
+							<pre class="fragment roll-in"><code>// this is faster 
+10 * 2; // 20;
+
+// than this
+10 << 1; //20</code></pre>
+						</ul>
+					</section>
+				</section>
+
+
+				<section>
+					<section>
+						<h2>Statements</h2>
+						<ul>
+							<li>if</li>
+							<li>switch</li>
+							<li>while</li>
+							<li>do</li>
+							<li>for</li>
+							<li>break</li>
+							<li>continue</li>
+							<li>return</li>
+							<li>throw</li>
+							<li>try/catch</li>
+							<li>var</li>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>for</h2>
+						<ul>
+							<li>iterate through all of the elments of an array: </li>
+							<pre><code>for(var i = 0; i < array.length; i++){
+    currentEl = array[i];
+    // ... do smth with currentEl
+}</code></pre>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>for .. in</h2>
+						<ul>
+							<li>iterate through <b>all</b> of the members (including inherited ones) of an object: </li>
+							<pre><code>for(var key in obj){
+    if(obj.hasOwnProperty(key)){
+        value = obj[key];
+        // ... do smth with value
+    }
+}</code></pre>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>throw</h2>
+						<ul>
+							<li>throws errors</li>
+							<li>you can use throw with any type of value</li>
+							<pre><code>// throw a custom error
+throw new Error(reason);
+
+// throw a custom object
+throw {
+    name : 'my custom exception',
+    message : 'some custom reason'
+};
+
+// throw a string
+throw "error message";
+</code></pre>
+						</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>try / catch</h2>
+							<ul>
+								<li>tries to execute a piece of code and catches any exception is thrown <b>only</b> in the corresponding try block</li>
+							<pre><code>try{
+    // ...
+} catch(e){
+    switch(e.name){
+        case 'Error':
+            // ...
+            break;
+        case 'someOtherErrorType':
+            // ...
+            break;
+        default:
+            throw e;
+    }	
+}
+</code></pre>
+							</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>try / catch</h2>
+							<ul>
+								<li>if you want to be able to <span class="del">catch</span> handle most uncatched errors in all of your scripts, use <i>window.onerror</i></li>
+							<pre><code>window.onerror = function(e){
+    // an error has occured
+    // do something about it
+    alert("We're sorry, but on error has occured. "
+        + "Please shut down your pc!");
+}
+</code></pre>
+							</ul>
+					</section>
+					<section>
+						<h2><span class="main-title">Statements: </span>var</h2>
+						<ul>
+							<li class="fragment highlight-white">defines variables within a function or within the global scope
+								<pre><code class="fragment roll-in">// define variable "name"
+var name;
+
+// define variable "someNumber" with the initial value of 13
+var someNumber = 13;
+
+// multiple variable definitions with/withouth initial values
+var x, y = 'foo', z;
+</code></pre>
+							</li>
+							<li class="fragment highlight-white">setting a value to an undefined variable (not using <i>var</i>) makes that value global
+								<pre><code class="fragment roll-in">// set value 13 to the undeclared variable "someNumber"
+someNumber = 13;
+
+// notice what happens
+console.log(window.someNumber); // 13</code></pre>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				
+
+				<section>
+					<h1>HOMEWORK</h1>
+					<ul>
+						<li class="fragment grow highlight-white">
+							watch Douglas Crockford's talk <a href="http://www.youtube.com/watch?v=hQVTIJBZook" target="_blank">Javasript: The Good Parts</a>
+						</li>
+						<br>
+						<br>
+						<li class="fragment grow highlight-white">
+							write a function that returns the <i>correct</i> sum of any numbers
+							<pre class="fragment roll-in"><code>function normalAdd(a, b){
+    return a + b;
+}
+
+// boo
+normalAdd(0.1, 0.2) == 0.3; // false
+
+// yeeey
+yourAdd(0.1, 0.2) == 0.3; // true
+
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
