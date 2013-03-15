@@ -1,0 +1,31 @@
+<html>
+<head>
+	<style type="text/css">
+		html{
+			background : rgba(0,0,0,.5);
+		}
+		.log{
+			font-family: courier new;
+			color : #fff;
+		}
+	</style>
+</head>
+<body>
+	<button> button #0</button>
+	<button> button #1</button>
+	<button> button #2</button>
+	<button> button #3</button>
+	<button> button #4</button>
+	<button> button #5</button>
+	<script type="text/javascript">
+		var buttons = document.querySelectorAll('button');
+		for(var i=0; i<buttons.length; i++)
+			{
+			    buttons[i].onclick = function(){
+			        alert('you just clicked button #' + i);
+			    }
+
+			}
+	</script>
+</body>
+</html>

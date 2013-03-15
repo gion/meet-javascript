@@ -1,0 +1,38 @@
+<html>
+<head>
+	<style type="text/css">
+		html{
+			background : rgba(0,0,0,.5);
+		}
+		.log{
+			font-family: courier new;
+			color : #fff;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		function log(msg){
+			var p = document.createElement('p');
+			p.innerText = msg;
+			p.className = 'log';
+			document.body.appendChild(p);
+		}
+
+
+		(function(window, undefined){
+
+			var foo = 'bar';
+
+		})(this);
+
+		try{
+			log(foo);
+		}catch(e){
+			log('[' + (e.type || 'ERROR') + ']' + (e.message || e.toString()));
+		}
+		log(window.foo);
+
+	</script>
+</body>
+</html>

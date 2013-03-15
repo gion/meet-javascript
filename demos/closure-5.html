@@ -1,0 +1,36 @@
+<html>
+<head>
+	<style type="text/css">
+		html{
+			background : rgba(0,0,0,.5);
+		}
+		.log{
+			font-family: courier new;
+			color : #fff;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		function log(msg){
+			var p = document.createElement('p');
+			p.className = 'log';
+			p.innerText = msg;
+			document.body.appendChild(p);
+		}
+
+		var a = 1,
+		    b = (function(a){
+		        return function(){
+		            return ++a;
+		        }
+		    })(a);
+
+		log('b() == ' + b());
+		log('a == ' + a);
+		log('b() == ' + b());
+		log('b() == ' + b());
+		log('a == ' + a);
+	</script>
+</body>
+</html>

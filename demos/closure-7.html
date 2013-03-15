@@ -1,0 +1,31 @@
+<html>
+<head>
+	<style type="text/css">
+		html{
+			background : rgba(0,0,0,.5);
+		}
+		.log{
+			font-family: courier new;
+			color : #fff;
+		}
+	</style>
+</head>
+<body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
+	<script type="text/javascript">
+		function log(msg){
+			var p = document.createElement('p');
+			p.innerText = msg;
+			p.className = 'log';
+			document.body.appendChild(p);
+		}
+
+		(function($){
+			log('[inner] ' + ($ == jQuery));
+		})(jQuery);
+
+		log('[outer] ' + ($ == jQuery));
+	</script>
+</body>
+</html>
