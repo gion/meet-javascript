@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>meet javascript - oop</title>
+
+        <meta name="description" content="an introductive javascript presentation">
+        <meta name="author" content="gradinariu bogdan">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <style type="text/css">
+            h2{
+                text-transform: none !important;
+            }
+
+            .main-title{
+                color : black;
+            }
+
+            .reveal .slides section .fragment.highlight-white{
+                color : #999;
+                opacity : 1;
+            }
+            .reveal .slides section .fragment.highlight-white.visible{
+                color : #fff;
+            }
+
+            .align-left{
+                text-align : left!important;
+            }
+            .gray {
+                color : #999;
+            }
+            .gray span{
+                color : #fff;
+            }
+
+            .del{
+                text-decoration: line-through;
+            }
+
+/*            section iframe{
+                visibility:  hidden;
+            }
+            .show-iframe iframe{
+                visibility: visible!important;
+            }*/
+
+            iframe.demo{
+                min-height : 250px;
+                min-width: 400px;
+                background: rgba(0,0,0,.1);
+            }
+
+            .demo-image{
+                width : 100%;
+                height: auto;
+            }
+        </style>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <div class="slides">
+
+                <section>
+                    <h1>Meet javascript - oop</h1>
+                    <p>
+                        <small> Sources are available at <a href="https://github.com/gion/meet-javascript" target="_blank">https://github.com/gion/meet-javascript</a></small>
+
+                        <small>Created by <a href="mailto:bogdan.gradinariu@xivic.com" target="_blank">Bogdan Gradinariu</a> with <a href="https://github.com/hakimel/reveal.js" target="_blank">reveal.js</a>.</small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>part 2 summary</h2>
+                    <ul>
+                        <li class="fragment grow">IIFE</li>
+                        <li class="fragment grow">closures</li>
+                    </ul>
+                </section>
+
+                    
+                <section>
+                    <section>
+                        <h2>syntax traps</h2>
+                        <p class="fragment roll-in">the following function is syntactically correct:</p>
+                        <pre class="fragment roll-in"><code>function stupidIdentity(a, b){
+
+    if(typeof(b, a) != 'undefined' && a instanceof(a.constructor))
+        delete(a, b); 
+
+    return(b, a);
+}</code></pre>
+<pre class="fragment roll-in"><code>stupidIdentity(1, 2); // 1;
+stupidIdentity('a'); // 'a';
+stupidIdentity([1, 2, 3], 4, 5, 6); // [1, 2, 3];</code></pre>
+                        
+                    </section> 
+                    <section>
+                        <h2>syntax traps</h2>
+                        <p>is <i>typeof</i> a function or an operator? </p>
+                                <pre class="fragment roll-in"><code>typeof(13); // number
+typeof 13; // number</code></pre>
+                        
+                    </section>  
+                    <section>
+                        <h2>syntax traps</h2>
+                        <p>is <i>return</i> a function or an operator? </p>
+                        <pre class="fragment roll-in"><code>function identity(a){return(a);}
+identity(13); // 13                        
+
+function identity2(a){return a;}
+identity2("foo"); // "foo"</code></pre>
+
+                        <div class="fragment roll-in">  
+                            <p>what about this one</p>
+                            <pre class><code>function identity3(a, b, c){return(a, b, c);}
+identity3(1); // undefined
+identity3(1, 2, 3); // 3</code></pre>   
+
+                            <div class="fragment roll-in">  
+                                <p>or this one</p>
+                                <pre class><code>typeof(((('something')))); // 'string'</code></pre>   
+                            </div>
+                        </div>
+                    </section> 
+                    <section>
+                        <h2><span class="main-title">syntax traps: </span>the comma operator</h2>
+                        <pre class="fragment roll-in"><code>var a = 7, 5; // SyntaxError: Unexpected number
+
+var a = (7, 5);
+a; // 5
+ 
+var x, y, z;
+x = (y=1, z=4);
+x; // 4
+y; // 1
+z; // 4</code></pre>
+<pre class="fragment roll-in"><code>// single element between round brackets
+var foo = ('bar');
+foo == 'bar'; // true
+foo == ('bar'); //true
+123 == (123); // true
+typeof(((('something')))) == typeof 'something'; // true</code></pre>
+                    </section> 
+                    <section>
+                        <h2><span class="main-title">syntax traps: </span>the comma operator</h2>
+                        <h4>real life usage</h4>
+                        <ul>
+                            <li style="min-width:650px;">
+                                <pre class="fragment roll-in"><code>while(a++, b--, c=Math.random(), b>a && c>0.5)</code></pre>
+                            </li>
+                            <li style="min-width:650px;">
+                                <pre class="fragment roll-in"><code>for(i=n; n--, n>i; i++)</code></pre>
+                            </li>
+                        </ul>
+                    </section>    
+                </section>    
+
+                <section>
+                    <h2>oop</h2>
+                    <p class="fragment">working with objects != <i>oop</i></p>
+                    <pre class="fragment roll-in" ><code style="min-height:550px">var singleton = {
+    key : value                        
+};
+
+function maker(name, where, when){
+
+    return {
+        name : name,
+
+        where : where,
+
+        // getter for the "private" var "some"
+        getWhen : function(){
+
+            // because of the closure, this function has access
+            // to the outer-scope
+            return when;
+        }
+    }
+}
+
+var student = maker('Bob', 'school', 'every day');</code></pre>
+                        
+                </section>
+                <section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> constructors</h2>
+                        <ul>
+                            <li class="fragment">are nothing but simple functions</li>
+                            <li class="fragment">they create and return a new object</li>
+                            <li class="fragment">inside the constructor, the newly created object can be referentiated through <i>this</i></li>
+                            <li class="fragment">the constructors <u><i>must</i></u> be called with the <i>new</i> keyword</li>
+                        </ul>
+                        <pre class="fragment roll-in"><code>function Point(x, y){
+    this.x = x;
+    this.y = y;
+
+    // no return statement required                        
+}
+
+var origin = new Point(0, 0);
+origin.x; // 0
+origin.y++; // 1</code></pre>
+                    </section>
+                     <section>
+                        <h2><span class="main-title">oop: </span> constructors</h2>
+                       <p>if a constructor is called withouth the <i>new</i> keyword </p>
+                       <ul>
+                           <li class="fragment">a new object is <u>not</u> created</li>
+                           <li class="fragment"><i>this</i> points to the outer context</li>
+                       </ul>
+                        <pre class="fragment roll-in"><code>var x = "ics",
+    invalidPoint = Point(0, 0);
+
+// TypeError: Cannot read property 'x' of undefined
+invalidPoint.x; 
+
+// TypeError: Cannot read property 'y' of undefined
+invalidPoint.y++;</code></pre>
+
+                        <div class="fragment roll-in">  
+                            <p>but wait, there's more</p>
+                            <pre ><code>x == "ics"; // false
+window.y; // 0</code></pre>
+                        </div>
+                    </section>
+                     <section>
+                        <h2><span class="main-title">oop: </span> constructors</h2>
+                       <p>rewrite the constructor to check the "presence" of <i>new</i></p>
+                       <pre class="fragment roll-in"><code>function Point(x, y){
+    if(!(this instanceof Point)) 
+        throw new Error('forgot new!');
+
+    this.x = x;
+    this.y = y;                      
+}
+
+var p = Point(-1, 1); // Error : forgot new!</code></pre>
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> constructors</h2>
+                       <p>use <i>makers</i> (a.k.a. <i>factories</i>) instead of raw constructors</p>
+                       <pre class="fragment roll-in"><code>function makePoint(x, y){
+    return new Point(x, y);
+}
+
+var p = makePoint(-1, 1),
+    p2 = new makePoint(13, -1);
+
+p instanceof Point; // true
+p2 instanceof Point; // true
+p.x == -1; // true
+p2.x == 13; // true</code></pre>
+                        <div class="fragment roll-in">
+                            
+                        <p> even jQuery does it</p>
+                         <pre ><code>console.log($);
+
+// output
+function (a,b){return new e.fn.init(a,b,h)}</code></pre>
+                        </div>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        <ul>
+                            <li class="fragment">objects are created with a "secret link" to another object</li>
+                            <li class="fragment">if not specified oterwise, the "secret link" is to the base object "class" called <i>Object</i> </li>
+                            <li class="fragment">if an attempt to acces a name fails, the secret linked object will be used</li>
+                            <li class="fragment">the secret link is not used when storing; new members are only added to the primary object</li>
+                        </ul>
+                    </section>
+
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        <pre class="fragment roll-in"><code>var personDefinition = {
+    age : 0,
+    name : 'no name',
+    sayHello : function(){
+        return "Hi, I'm " + this.name;
+    }
+}
+
+// the constructor for "Person" objects
+var Person = function(){};
+
+// add the hidden link
+Person.prototype = personDefinition;
+
+</code></pre>
+                    </section>
+
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>// notice the "new" keyword
+var Bob = new Person();</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto1.png" alt="" >
+                    </section>
+
+
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>Bob.age === undefined; // false
+Bob.name === undefined; // false
+Bob.firstName === undefined; // true</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto2.png" alt="" >
+                    </section>
+
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>Bob.name = "Bob";
+Bob.name === personDefinition; // false
+Bob.sayHello(); // "Hi, I'm Bob"</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto3.png" alt="" >
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>Bob.sayHello(); // "Hi, I'm Bob"
+delete personDefinition.sayHello;
+Bob.sayHello(); // TypeError: Object has no method 'sayHello'</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto4.png" alt="" >
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>Bob.toString(); // ???</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto5.png" alt="" >
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance</h2>
+                        
+                        <pre><code>Bob.toString(); // "[object Object]"</code></pre>
+                        <img class="demo-image fragment roll-in" src="demos/proto6.png" alt="" >
+                    </section>
+                </section>
+
+                 <section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance patterns</h2>
+                        <p>say we have the <i>Mammal</i> "class" and we want to extend it and make a new one called "Cat"</p>
+                        <pre class="fragment roll-in"><code>// Mammal constructor
+function Mammal(name){
+    this.name = name;
+}</code></pre>
+<pre class="fragment roll-in"><code>// Cat constructor
+function Cat(name, color){
+    // same logic as in Mammal constructor
+    this.name = name;
+
+    // additional cat logic
+    this.color = color;    
+}
+
+// make "Cat" a "Mammal"
+Cat.prototype = new Mammal();</code></pre>
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance patterns</h2>
+                        <p>let's DRY the cat a bit</p>
+                        <pre class="fragment roll-in"><code>function Mammal(name){
+    this.name = name;
+}
+
+// constructor
+function Cat(name, color){
+    // apply the mammal constructor logic
+    // this points to the newly created Cat instance
+    Mammal.apply(this, arguments);
+
+    // additional cat logic
+    this.color = color;    
+}
+
+// make "Cat" a "Mammal"
+Cat.prototype = new Mammal();</code></pre>
+
+<pre class="fragment roll-in"><code>// link the constructor back to "Cat"
+Cat.prototype.constructor = Cat;
+
+// create a helpful "super" link
+Cat.prototype.parent = Mammal.prototype;</code></pre>
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance patterns</h2>
+                        <p>extend methods</p>
+                        <pre class="fragment roll-in"><code>Mammal.prototype.sayHello = function(){
+    return "Hi";
+}
+
+Cat.prototype.sayHello = function(){
+    return "Hi and Miauu!";
+}</code></pre>
+                    </section>
+                    <section>
+                        <h2><span class="main-title">oop: </span> inheritance patterns</h2>
+                        <p>DRY the cat a bit more</p>
+                        <pre class="fragment roll-in"><code>Mammal.prototype.sayHello = function(){
+    return "Hi";
+}
+
+Cat.prototype.sayHello = function(){
+    var superHello = this.parent.sayHello.apply(this, arguments);
+    return superHello + ' and Miauu!';
+}</code></pre>
+                    </section>
+                </section>
+
+                 <section>
+                     <section>
+                            <h2><span class="main-title">oop: </span> an <i>inherit</i> function</h2>
+                            <pre class="fragment roll-in"><code>function inherit(subClass, superClass){
+    subClass.prototype = new superClass();
+    subClass.prototype.constructor = subClass;
+    subClass.prototype.parent = superClass.prototype;
+}</code></pre>
+                    </section>
+
+                     <section>
+                            <h2><span class="main-title">oop: </span> an <i>inherit</i> function</h2>
+                            <pre class="fragment roll-in"><code>function Mammal(name){
+    this.name = name;
+}
+Mammal.prototype.sayHello = function(){
+    return "Hi, I'm " + this.name;
+}
+
+function Cat(name, color){
+    if(this.parent)
+        this.parent.constructor.apply(this, arguments);
+
+    this.color = color;
+}
+
+// make Cat inherit from Mammal
+inherit(Cat, Mammal);</code></pre>
+                    </section>
+                    <section>
+                            <h2><span class="main-title">oop: </span> an <i>inherit</i> function</h2>
+                            <pre class="fragment roll-in"><code>var c = new Cat('Tom', 'blue');
+
+c instanceof Cat; // true
+c instanceof Mammal; // true
+c.name; // "Tom"
+c.color; // "blue"
+c.sayHello(); // "Hi, I'm Tom"</code></pre>
+                    </section>
+                </section>
+
+
+
+                <section>
+                    <section>
+                        <h2>Homework</h2>
+                           <p class="fragment"> consider the following Person "class" : <p>
+                            <pre class="fragment roll-in"><code>function Person(options){
+    // initialize instance members
+    this.name = options.name || "no name";
+    this.age = options.age || 0;
+}
+
+Person.prototype = {
+    talk : function(){
+        return "Hello, I'm " + this.name;
+    }
+};</code></pre>
+                    </section>
+                    <section>
+                        <h2><span class="main-title">Homework: </span> tasks</h2>
+                          <ul>
+                              <li class="fragment roll-in">extend the <i>Person</i> in order to make a "Worker" class, that
+                                <ul>
+                                    <li>has a new member called <i>action</i></li>
+                                    <li>has a new method called <i>work</i>, that returns a string that describes his work (action)</li>
+                                </ul>
+                              </li>
+                              <li class="fragment roll-in">extend the <i>Worker</i> in order to make a "Programmer" class, that
+                                <ul>
+                                    <li>has the <i>action</i> set to "coding"</li>
+                                    <li>has a new member called <i>language</i></li>
+                                    <li>has a new method called <i>code</i>, that returns a string that describes his work and coding language</li>
+                                </ul>
+                              </li>
+                          </ul>
+                    </section>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
