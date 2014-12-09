@@ -1,0 +1,617 @@
+
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>jquery plugins... nail'em</title>
+
+        <meta name="description" content="a presentation on jquery plugins">
+        <meta name="author" content="bgodan gradinariu">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <style type="text/css">
+            .black{
+                color : #f90;
+            }
+            .red{
+                color : #ff0000;
+            }
+            .del{
+                text-decoration: line-through;
+            }
+            .bold{
+                font-weight: bolder;
+            }
+            .important{
+                /*color : #f90;*/
+                color : rgb(253, 67, 67);
+              /*  font-style: italic !important;
+                text-decoration: underline;*/
+            }
+            .explain{
+                color : gray;
+                font-style: italic !important;
+            }
+            
+            code{
+                max-height: 520px !important;
+            }
+
+            .align-left{
+                text-align: left;
+            }
+
+            .spaced{
+                line-height: 1.2em !important
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section>
+                    <h1>jQuery <span class="fragment important">plugins</span></h1>
+                    <h3 class="fragment roll-in">the guide to understand and build <span class="important">jquery plugins</span></h3>
+                    <h4 class="fragment roll-in">- part <span class="important">two</span> -</h4>
+                </section>
+
+                <section>
+                    <h2>part 1 summary</h2>
+                    A jQuery plugin is a peace of reusable code that extends the normal functionality of jQuery's core and must
+                    <ul>
+                        <li class="fragment roll-in">
+                            maintain chainability
+                        </li>
+                        <li class="fragment roll-in">
+                            have consistent results
+                        </li>
+                        <li class="fragment roll-in">
+                            be written using coding standards
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h2 class="align-left spaced">a jquery plugin must respect <br/><span class="important fragment">code conventions</span><br/> in order to fulfill the actual  <br/><span class="important fragment">functionality expectations</span></h2>
+                </section>
+
+                <section>
+                    <h2>a jQuery plugin should</h2>
+                    <ul>
+                        <li class="fragment roll-in">
+                            accept any number of initialization options (provide defaults)
+                        </li>
+                        <li class="fragment roll-in">
+                            have an api
+                        </li>
+                        <li class="fragment roll-in">
+                            provide api access
+                        </li>
+                        <li class="fragment roll-in">
+                            be able to undo <span class="important">anything</span>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>plugin defaults</h2>
+                        myPlugin should be initialized in any of these cases : 
+                        <pre class="fragment roll-in"><code>$('selector').myPlugin();</code></pre>
+                        <pre class="fragment roll-in"><code>$('selector').myPlugin({
+    someOption : someValue
+});</code></pre>
+                        <pre class="fragment roll-in"><code>$('selector').myPlugin({
+    someOption : someValue,
+    someOtherOption : someOtherValue
+    // ...
+});</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>plugin defaults</h2>
+                        we need to provide default values for every possible option :   
+                        <pre class="fragment roll-in"><code>$.fn.myPlugin = function(el, options){
+    var settings = options || {};
+    settings.height = options.height || '400';
+    settings.someOption = options.someOption || 'some default value';
+
+    // ...
+    // plugin logic based on our settings
+}</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>plugin defaults</h2>
+                        let's make use of jQuery since we're already using it  
+                        <pre class="fragment roll-in"><code>$.fn.myPlugin = function(el, options){
+    // define our defaults as an object
+    var defaults = {
+        height: '400',
+        someOption : 'some default value'
+    };
+
+    // merge defaults & options, without modifying defaults
+    var settings = $.extend({}, defaults, options);
+
+    // ...
+    // plugin logic based on our settings
+}</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>plugin defaults</h2>
+                        let's expose the defaults and dry our code:
+                        <pre class="fragment roll-in"><code>$.fn.myPlugin = function(el, options){
+    // merge defaults & options, without modifying defaults
+    // notice that we're not redefining the defaults object
+    var settings = $.extend({}, $.fn.myPlugin.defaults, options);
+
+    // ...
+    // plugin logic based on our settings
+}
+
+// define our defaults as a "static" prop
+$.fn.myPlugin.defaults = {
+    height: '400',
+    someOption : 'some default value'
+};
+</code></pre>
+
+                    </section>
+                </section>
+
+
+
+
+                <section>
+                    <section>
+                        <h2>plugin api</h2>
+                        toggleDisplay should have a simple yet complete api
+                        <pre class="fragment roll-in"><code>$.fn.toggleDisplay = function(el, options){
+    if(this.is(':visible'))
+        this.hide();
+    else
+        this.show();
+}</code></pre>
+<p class="fragment roll-in">but it doesn't <span class="important">:(</span></p>
+
+                    </section>
+                    <section>
+                        <h2>plugin api</h2>
+                        an api separates logic and is easier to understand and maintain
+                        <pre class="fragment roll-in"><code>$.fn.toggleDisplay = function(el, options){
+    var api = {
+        el : this,
+
+        shouldHide : function(){
+            return this.el.is(':visible');
+        },
+
+        show : function(){
+            this.el.show();
+        },
+
+        hide : function(){
+            this.el.hide();
+        },
+
+        run : function(){
+            if(this.shouldHide())
+                this.hide();
+            else
+                this.show();
+        }
+    };
+
+    api.run();
+}</code></pre>
+
+                    </section>
+                </section>
+
+
+                <section>
+                    <section>
+                        <h2>provide api access</h2>
+                        <p>there might be cases that your plugin doesn't cover and it's funcitonality needs to be tweeked a bit.</p> <br/>
+                        <p class="fragment">let's say that you need to alert a message if your plugin decides that your element should be hidden</p><br/>
+                        <p class="fragment">how would <span class="important">you</span> do it?</p>
+                    </section>
+                    <section>
+                        <h2>provide api access</h2>
+                        let's "pin" a reference of the plugin's api to the element
+                        <pre class="fragment roll-in"><code>$.fn.toggleDisplay = function(el, options){
+   var api = { /*...*/ };
+
+   // attach the plugin to the element through jQuery's "data" method
+   this.data('toggleDisplayApi', api);
+   
+   api.run();
+}</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>provide api access</h2>
+                        once you have access to the api, you can tweek the functionality without altering the plugin's code
+                        <pre class="fragment roll-in"><code>var element = $('some-selector').toggleDisplay(),
+    api = element.data('toggleDisplayApi');
+
+if(api.shouldHide())
+    alert('the element should be hidden!!!');
+</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>provide api access</h2>
+                        <p>another common way of exposing your api is by making another plugin call with the parameters pointing to the desired api method. </p><br/>
+                        <p>here's an example of how you can call a method of the <a href="http://jquery.malsup.com/cycle/">cycle plugin</a> : </p>
+                        <pre class="fragment roll-in"><code>// initialize the plugin 
+$('some-selector').cycle(options);
+
+//... at a certain point, you want to
+// pause the slideshow
+$('some-selector').cycle('pause');
+</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>provide api access</h2>
+                        <p>this kind of functionality can be achieved only by having an api </p>
+                         <pre class="fragment roll-in"><code>$.fn.toggleDisplay = function(el, options){
+    // check if the plugin was already initialized
+    var api = this.data('toggleDisplayApi');
+    if(!api) {
+        // this is the first time the plugin was called, so init stuff goes here
+       api = { /*...*/ };
+
+       // attach the plugin to the element through jQuery's "data" method
+       this.data('toggleDisplayApi', api);
+       
+       api.run();
+    } else {
+        // the plugin was already initialized
+        if(typeof options == 'string' && typeof api[options] == 'function') {
+            // the user wants to call an api method
+            api[options]();
+        }
+    }
+
+}</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>provide api access</h2>
+                        <p>now someone can do stuff like this: </p>
+                        <pre class="fragment roll-in"><code>$('some-selector')
+    .text('should I stay or should I go?')
+    // initialize the plugin
+    .toggleDisplay();
+
+// ... after some twisted logic
+$('some-selector')
+    .text('I\'ll just go...')
+    // call the "hide" method from the plugin's api
+    .toggleDisplay('hide');
+</code></pre>
+
+                    </section>
+                </section>
+                <section>
+                    
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>any plugin that alters the dom in any way must be able to restore it back to the way it was</p><br/>
+                        <p class="fragment">when building a plugin, it is considered a <span class="important">best practice</span> each method that <span class="important">adds dom elements</span> or <span class="important">adds event handlers</span> to have an <i>evil twin brother</i> that does the opposite of the original method :</p>
+                        <pre class="fragment roll-in"><code>api.addDomElement = function(){
+    $('&lt;div class="helper" /&gt;').appendTo(api.element);
+}
+api.removeDomElement = function(){
+    api.element.find("helper").remove();
+}
+</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>the same goes for event handlers:</p>
+                        <pre class="fragment roll-in"><code>api.bindEvents = function(){
+    api.element.on('some-event', function(){});
+}
+api.removeEvents = function(){
+    api.element.off('some-event');
+}
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>the destroy method shouldn't leave any trace of the plugin</p>
+                        <pre class="fragment roll-in"><code>api.destroy = function(){
+    api.removeElements();
+    api.removeEvents();
+    api.element.removeData('pluginApi');
+}
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>using <span class="important">namespaces</span> for event handlers and <span class="important">prefixes</span> for class names can make undoing things really easy</p><br/>
+                        <p class="fragment">if all of your added dome elements have a certain class or have a class with the same prefix, you needn't keep track of each of them. You can remove them by relying on that <span class="important">unique</span> prefix </p>
+                        <pre class="fragment roll-in"><code>api.removeDomElement = function(){
+    // this will remove any element that has a class that starts with "plugin-"
+    // ex of matched elements: "plugin-controls", "plugin-wrapper", "plugin-item"
+    api.element.find("[class*='plugin-']").remove();
+}
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>the same goes for event handlers and <span class="important">namespaces</span></p>
+                        <p>more details on namespaced events here: <a href="http://docs.jquery.com/Namespaced_Events">http://docs.jquery.com/Namespaced_Events</a></p>
+                        <pre class="fragment roll-in"><code>api.bindEvents = function(){
+    // consider that our namespace is "plugin"
+    api.element.on('mouseover.plugin', function(){});
+    api.element.on('mouseout.plugin', function(){});
+    api.element.on('dblcick.plugin', function(){});
+}
+
+api.removeEvents = function(){
+    // no need to remove the handlers for particular events
+    api.element.off('.plugin');
+}
+</code></pre>
+                    </section>
+                    <section>
+                        <h2>undoing things</h2>
+                        <p>making namespaces and prefixes configurable</p>
+                        <pre class="fragment roll-in"><code>$.fn.tip = function(el, options){
+    var settings = $.extend({}, $.fn.myPlugin.defaults, options);
+    var api = {
+        init : function(){
+            api.element
+                .append(
+                    $('&lt;span /&gt;')
+                        .text(settings.text)
+                        .addClass(settings.prefix + 'tooltip');
+                )
+                .on('mouseenter.' + settings.namespace, api.showTip)
+                .on('mouseleave.' + settings.namespace, api.hideTip);
+        },
+        destroy : function(){
+            api.element
+                .removeData('tipApi')
+                .off('.' + settings.namespace)
+                .find("[class*='"+ settings.prefix +"']").remove();
+        }
+    };
+}
+// define our defaults as a "static" prop
+$.fn.tip.defaults = {
+    prefix : 'plugin-',
+    namespace : 'plugin',
+    text : 'I\'m a tooltip'
+};
+</code></pre>
+                    </section>
+                </section>
+                
+                <section>
+                    <h2>the result of our work</h2>
+                    <pre><code>/**
+* copyright stuff should go here to
+*
+* @author: bogdan.gradinariu@gmail.com
+* @pluginName: myPlugin
+* @description: a jquery plugin that does something
+* @usage: 
+*
+*       //initialization
+*       $('selector').myPlugin(options);
+*
+*       // method access (after initialization)
+*       $('selector').myPlugin('destroy');
+*
+*       // raw api access (after initialization)
+*       var api = $('selector').data('myPluginApi');
+*       api.destroy();
+*
+*/
+;(function(window, $, undefined){
+ 
+    // name your plugin
+    var pluginName = 'myPlugin';
+        
+    // this is the api "class"
+    function ApiClass(el, settings){
+        this.el = el;
+        this.$el = $(el);
+        this.settings = settings;
+        this._init();
+    }
+    
+    // plugins must be very efficient so, make use of our oop knowledge 
+    ApiClass.prototype = {
+        
+        _init : function(){
+            this
+                ._addDomElements()
+                ._bindEventHandlers()
+                // add a link to this api instance to the dom element
+                .$el.data(this.settings.apiName, this);
+        },
+
+        destroy : function(){
+            this
+                ._removeDomElements()
+                ._unbindEventHandlers()
+                .$el.removeData(this.settings.apiName);
+        },
+
+        // utility function that sets the prefix to a given className
+        _className : function(c){
+            return this.settings.prefix + c;
+        },
+
+        // utility function that sets the namespace to a given event
+        _event : function(ev){
+            return ev + '.' + this.settings.namespace;
+        },
+
+        _addDomElements : function(){
+            // to be implemented
+
+            // ex:            
+            // $('&lt;div /&gt;')
+            //  .addClass(this._className('wrapper'))
+            //  .appendTo(this.$el); 
+
+            return this;
+        },
+
+        _removeDomElements : function(){
+            $("[class*='"+ this.settings.prefix +"']", this.$el).remove();
+
+            return this;
+        },
+
+        _bindEventHandlers : function(){
+            // to be implemented
+
+            // ex:            
+            // this.$el.on(this._event('click'), this._className('next'), function(){});
+            return this;
+        },
+
+        _unbindEventHandlers : function(){
+            this.$el.off('.' + this.settings.namespace);
+
+            return this;
+        }
+    }
+
+    // attach your plugin to the jQuery prototype
+    $.fn[pluginName] = function(el, options){
+        
+        // merge defaults & options, without modifying defaults
+        var settings = $.extend({}, $.fn[pluginName].defaults, options);
+
+        // return the `this` object after iterating through it
+        return this.each(function(i, el){
+
+            var $el = el,
+                api = $el.data(settings.apiName);
+
+            // the plugin hasn't been initialized yet
+            if(!api) {
+                // construct a new api for this element
+                api = new ApiClass(el, settings);
+            } else {
+                // if the plugin has already been initialized
+                // and the second argument is in fact a string
+                // that describes a PUBLIC api method 
+                // (by convention "_method" is considered private)
+                if(typeof options == 'string' && typeof api[options] == 'function' && options.charAt(0) != '_') {
+                    // call the method and pass any other arguments (coming after "options")
+                    // as the method's parameters
+                    api[options].apply(api, [].slice.call(arguments, 2));                
+                }
+            }
+        });
+    };
+    
+    // keep track of the plugin's version
+    $.fn[pluginName].version = '0.0.1';
+
+    //defaults
+    $.fn[pluginName].defaults = {
+        prefix : pluginName + '-',
+        namespace : pluginName,
+        apiName : pluginName + 'Api'
+    };
+
+})(this, jQuery);</code></pre>
+    <p>also available as a gist <a href="https://gist.github.com/gion/5466460#file-jquery-plugin-complete-template-js">here</a></p>
+                </section>
+                <section>
+                    <h2>homework</h2>
+                    based on <a href="https://gist.github.com/gion/5466460#file-jquery-plugin-complete-template-js">this gist</a> write a jQuery <span class="important">slideshow</span> plugin. <br/>please work with <span class="important">git</span><br/>no more specifications.
+                </section>    
+
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+        <script type="text/javascript">
+            window.onload = (function($){
+                return function(){
+                    var a = $('a'),
+                        l = a.length, 
+                        i = 0;
+
+                    for(;i++<l;) {
+                       if(a[i])
+                            a[i].setAttribute('target', '_blank');
+                    }
+                }
+            })(document.querySelectorAll.bind(document));
+        </script>
+
+    </body>
+</html>

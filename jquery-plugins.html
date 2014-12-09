@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>jquery plugins... nail'em</title>
+
+        <meta name="description" content="a presentation on jquery plugins">
+        <meta name="author" content="bgodan gradinariu">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <style type="text/css">
+            .black{
+                color : #000;
+            }
+            .red{
+                color : #ff0000;
+            }
+            .del{
+                text-decoration: line-through;
+            }
+            .bold{
+                font-weight: bolder;
+            }
+            .important{
+                color : #ff0000;
+              /*  font-style: italic !important;
+                text-decoration: underline;*/
+            }
+            .explain{
+                color : gray;
+                font-style: italic !important;
+            }
+            
+            code{
+                max-height: 500px !important;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+                <section>
+                    <h1>jQuery <span class="fragment black">plugins</span></h1>
+                    <h3 class="fragment roll-in">the guide to understand and build <span class="black">jquery plugins</span></h3>
+                    <h4 class="fragment roll-in">- part <span class="black">one</span> -</h4>
+                </section>
+
+                <section>
+                    <h2>what is a jQuery plugin?</h2>
+                    <ul>
+                        <li class="fragment roll-in">
+                            an extension of a jquery functionality
+                        </li>
+                        <li class="fragment roll-in">
+                            a new jQuery method
+                        </li>
+                        <li class="fragment roll-in">
+                            a peace of <span class="important">reusable</spans> code
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <section>
+                        <h2>plugins you may have used before</h2>
+                    </section>
+                    <section>
+                        <h2>plugins you may have used before</h2>
+                        <h3>lightbox</h3>
+                        <p class="fragment roll-in">
+                            link : <a href="http://leandrovieira.com/projects/jquery/lightbox/">http://leandrovieira.com/projects/jquery/lightbox/</a>
+                        </p>
+                        <p class="fragment roll-in">
+                            example : 
+                            <pre class="fragment roll-in"><code>$('#gallery a').lightBox({fixedNavigation:true});</code></pre>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>plugins you may have used before</h2>
+                        <h3>cycle</h3>
+                        <p class="fragment roll-in">
+                            link : <a href="http://jquery.malsup.com/cycle/">http://jquery.malsup.com/cycle/</a>
+                        </p>
+                        <p class="fragment roll-in">
+                            example : 
+                            <pre class="fragment roll-in"><code>$('#element').cycle({ 
+    fx: 'scrollRight', 
+    next: '#right', 
+    timeout: 0, 
+    easing: 'easeInOutBack' 
+});</code></pre>
+                        </p>
+                    </section>
+                    <section>
+                        <h2>plugins you may have used before</h2>
+                        <h3>attr</h3>
+                        <p class="fragment roll-in">
+                            link : <a href="https://github.com/jquery/jquery/blob/master/src/attributes.js#L7">https://github.com/jquery/jquery/blob/master/src/attributes.js#L7</a>
+                        </p>
+                        <p class="fragment roll-in">
+                            example : 
+                            <pre class="fragment roll-in"><code>// getter 
+var id = $('selector').attr('id');
+
+// setter
+$('selector').attr('href', '#some-link');</code></pre>
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>demo time</h2>
+                    </section>
+                    <section>
+                        <p>let's build a plugin that vertically centers an element</p>
+                        <p class="fragment roll-in">
+                            <a href="http://codepen.io/gion/pen/AnCkH">here's</a> what the result should look like : 
+                        </p>
+                        <div class="fragment roll-in">
+                            
+                            <pre class="codepen fragment roll-in" data-height="450" data-type="result" data-href="AnCkH" data-user="gion" data-safe="false"><code></code><a href="http://codepen.io/gion/pen/AnCkH">Check out this Pen!</a></pre>
+                            <script src="http://codepen.io/assets/embed/ei.js"></script>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>any problems?</h3>
+                        <p class="fragment roll-in">
+                           let's apply the <span class="important">same</span> jQuery methods in other order:
+                        </p>
+                        <div class="fragment roll-in">
+                          <pre class="codepen" data-height="450" data-type="result" data-href="dGCmD" data-user="gion" data-safe="true"><code></code><a href="http://codepen.io/gion/pen/dGCmD">Check out this Pen!</a></pre>
+<script async src="http://codepen.io/assets/embed/ei.js"></script>
+                        </div>
+                        <p class="fragment roll-in red">no chainability <span class="black bold">:(</span></p>
+                    </section>
+                    <section>
+                        <h3>any <span class="black">other</span> problems?</h3>
+                        <p class="fragment roll-in">
+                           let's apply the same jQuery plugin to <span class="important">2 elements</span>:
+                        </p>
+                        <div class="fragment roll-in">
+                          <pre class="codepen" data-height="450" data-type="result" data-href="ijrdk" data-user="gion" data-safe="true"><code></code><a href="http://codepen.io/gion/pen/ijrdk">Check out this Pen!</a></pre>
+<script async src="http://codepen.io/assets/embed/ei.js"></script>
+                        </div>
+                        <p class="fragment roll-in red">it doesn't behave the same for every element <span class="black bold">:((</span></p>
+                    </section>
+                    <section>
+                        <h3>any other <span class="black">more</span> problems?</h3>
+                        <p class="fragment roll-in">
+                           let's include the prototype library <span class="important">(this one's a classic)</span> : 
+                        </p>
+                        <div class="fragment roll-in">
+                          <pre class="codepen" data-height="450" data-type="result" data-href="nEKfp" data-user="gion" data-safe="true"><code></code><a href="http://codepen.io/gion/pen/nEKfp">Check out this Pen!</a></pre>
+<script async src="http://codepen.io/assets/embed/ei.js"></script>
+                        </div>
+                        <p class="fragment roll-in red">no portability &amp; reusability<span class="black bold">:(((</span></p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>a <span class="black">good</span> &nbsp;jQuery plugin <span class="black">must</span></h3>
+                        <ul>
+                            <li class="fragment highlight">maintain chainability</li>
+                            <li class="fragment highlight">have consistent results</li>
+                            <li class="fragment highlight">be written using &quot;jquery standards&quot;<br>
+                                <span class="explain">(I didn't know what else to call'em)</span>
+                            </li>
+                        </ul>
+                        <br/><br/>
+                        <p class="fragment roll-in">what... huh? <span class="black">:-??</span></p>
+                    </section>
+
+                    <section>
+                        <h3>maintain chainability</h3>
+                        <span class="explain">= return the context that your plugin has received </span>
+                        <pre class="fragment roll-in"><code>$.fn.somePlugin = function(){
+    // bla bla bla logic
+
+    // this makes the magic happen
+    return this;
+}</code></pre> 
+                        <div class="fragment roll-in">this means that the <span class="important">chain</span> won't break:
+                             <pre><code>$('div').somePlugin().text("we're chained, bro!");</code></pre> 
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>consistent results</h3>
+                        <span class="explain">= apply the same logic on any element</span>
+                        <pre class="fragment roll-in"><code>$.fn.countElements = function(){
+    var counter = 0,
+        countElement = function(el) {
+            counter++;
+            $(el).text("I'm element #" + counter);
+        };
+
+    // separate logic applied for EVERY element
+    this.each(function(i, el){
+        countElement(el);
+    });
+
+    return this;
+}</code></pre>
+                <p class="fragment roll-in"> here's a demo : <a href="http://codepen.io/gion/pen/wdxgy">http://codepen.io/gion/pen/wdxgy</a> </p>
+                    </section>
+
+                    <section>
+                        <h3>&quot;jquery standards&quot;</h3>
+                        <span class="explain">= at least pass $ as reference to jQuery through a closure</span>
+                        <pre class="fragment roll-in"><code>var $ = 'something else than jQuery';
+(function($){
+    // I can use $ as jQuery here :)
+    // take that, wordpress!
+
+    $.fn.somePlugin = function(){ /*...*/ }
+})(jQuery);</code></pre>
+                    </section>
+                    <section>
+                        <h3>the <span class="black">good</span> version of our first plugin</h3>
+                        <pre class="fragment roll-in"><code>//closure 
+(function($){
+    $.fn.vCenter = function(){
+
+        // each is chainable, so we can return it directly ;) 
+        return this.each(function(i, element){
+            // anyone has the right to find it's own center
+
+            var el = $(this),
+                parent = el.parent(),
+                parentHeight = parent.height(),
+                height = el.height(),
+                desiredOffset = (parentHeight - height) / 2;
+
+            el.css('margin-top', desiredOffset);
+        });
+    }
+})(jQuery);
+</code></pre>
+            <p class="fragment roll-in">and here's a demo that passes all the tests : <a href=" http://codepen.io/gion/pen/gczwD"> http://codepen.io/gion/pen/gczwD</a> </p>
+
+           
+                    </section>
+                </section>
+		<section>
+			<h1>HOMEWORK</h1>
+			<p>Starting from <a href="https://gist.github.com/gion/5434349" target="_blank">this gist</a> create at least one of the following plugins: 
+				<ul>
+					<li><span class="red">$('#element').tip()</span> - a plugin that shows a tip on an element when it's hovered</li>
+				<li><span class="red">$('#element').vResize()</span> - correct the plugin used in this presentation in order to make the results consistent after various changes (dom changes, window resizes)</li>
+					<li><span class="red">$('#element').countMyParents()</span> - a plugin returns an integer that represents the number of parents of an element</li>
+				</ul>
+			</p>
+		</section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+                    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+        <script type="text/javascript">
+            window.onload = (function($){
+                return function(){
+                    var a = $('a'),
+                        l = a.length, 
+                        i = 0;
+
+                    for(;i++<l;) {
+                       if(a[i])
+                            a[i].setAttribute('target', '_blank');
+                    }
+                }
+            })(document.querySelectorAll.bind(document));
+        </script>
+
+    </body>
+</html>
